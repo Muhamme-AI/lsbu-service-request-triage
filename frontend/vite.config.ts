@@ -21,14 +21,5 @@ export default defineConfig({
   build: {
     outDir: "dist",
     sourcemap: false,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          react: ["react", "react-dom"],
-          charts: ["recharts"],
-          radix: ["@radix-ui/react-dialog", "@radix-ui/react-tabs", "@radix-ui/react-switch", "@radix-ui/react-tooltip", "@radix-ui/react-slot"],
-        },
-      },
-    },
   },
 })
