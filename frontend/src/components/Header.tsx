@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import type { Health } from "@/lib/types"
 
-export const REPO_URL = "https://github.com/Muhamme-AI/service-request-triage"
+export const REPO_URL = "https://github.com/Muhamme-AI/lsbu-service-request-triage"
 
 interface HeaderProps {
   health: Health | null
