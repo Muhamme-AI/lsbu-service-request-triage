@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import type { DatasetName, Health } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -111,27 +110,11 @@ export function UploadPanel({ health, loading, asOf, useAi, onAsOfChange, onUseA
           </div>
 
           <div className="flex items-center justify-between gap-3 rounded-lg border p-3">
-            <div className="grid gap-0.5">
-              <Label htmlFor={aiId} className="text-sm">
-                <Sparkles className="size-4 text-primary" />
-                Refine acknowledgements with AI
-              </Label>
-              <p className="text-xs text-muted-foreground">
-                {aiAvailable
-                  ? health?.ai_provider?.startsWith("groq")
-                    ? `Uses Groq (${health.ai_provider}), the free model. ${health.ai_fallbacks?.length ? `Fallback: ${health.ai_fallbacks.join(", ")}.` : "Azure OpenAI and OpenAI are the fallback when those keys are set."}`
-                    : `Uses ${health?.ai_provider}; template kept as fallback.`
-                  : "Not configured. Set TRIAGE_AI_PROVIDER=groq and GROQ_API_KEY. Azure OpenAI and OpenAI stay available as the fallback."}
-              </p>
-            </div>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span>
-                  <Switch id={aiId} checked={useAi && aiAvailable} disabled={!aiAvailable || loading} onCheckedChange={onUseAiChange} />
-                </span>
-              </TooltipTrigger>
-              <TooltipContent>{aiAvailable ? "Groq is called first. Azure OpenAI or OpenAI is used only if Groq fails, then the template." : "Optional step. The prototype is fully functional without it."}</TooltipContent>
-            </Tooltip>
+            <Label htmlFor={aiId} className="text-sm">
+              <Sparkles className="size-4 text-primary" />
+              Refine acknowledgements with AI
+            </Label>
+            <Switch id={aiId} checked={useAi && aiAvailable} disabled={!aiAvailable || loading} onCheckedChange={onUseAiChange} />
           </div>
         </div>
       </CardContent>

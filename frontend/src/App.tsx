@@ -50,7 +50,7 @@ export default function App() {
   return (
     <TooltipProvider>
       <div className="min-h-screen">
-        <Header health={health} />
+        <Header />
         <main className="mx-auto grid max-w-7xl gap-6 bg-white px-4 py-6 sm:px-6">
           <Tabs defaultValue="triage">
             <TabsList>
@@ -99,7 +99,6 @@ export default function App() {
                     <span>
                       Batch <span className="font-medium text-foreground">{run.input_file}</span> - assessed as of {formatIsoDate(run.as_of)} ({run.as_of_source}) - generated {run.generated_at}
                     </span>
-                    {run.ai_enabled ? <Badge variant="default">AI drafting on - {run.ai_provider}</Badge> : <Badge variant="secondary">templates only</Badge>}
                     {run.missing_columns.length > 0 && <Badge variant="warning">missing columns: {run.missing_columns.join(", ")}</Badge>}
                     {run.ignored_columns.length > 0 && <Badge variant="outline">ignored: {run.ignored_columns.join(", ")}</Badge>}
                     {run.blank_rows_skipped > 0 && <Badge variant="outline">{run.blank_rows_skipped} blank rows skipped</Badge>}
