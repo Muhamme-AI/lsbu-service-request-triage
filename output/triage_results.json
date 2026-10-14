@@ -1,0 +1,524 @@
+{
+  "generated_at": "2026-10-13 19:17 UTC",
+  "input_file": "requests.csv",
+  "rules_version": "1.0",
+  "as_of": "2026-10-08",
+  "as_of_source": "latest submission date in the batch",
+  "ai_enabled": false,
+  "ai_provider": null,
+  "columns_found": [
+    "Request ID",
+    "Submitted Date",
+    "Requester Role",
+    "Request Type",
+    "Request Summary",
+    "Priority",
+    "Channel",
+    "Status"
+  ],
+  "missing_columns": [],
+  "ignored_columns": [],
+  "blank_rows_skipped": 0,
+  "summary": {
+    "total": 10,
+    "valid": 10,
+    "invalid": 0,
+    "needs_human_review": 6,
+    "auto_acknowledged": 4,
+    "category_mismatches": 0,
+    "by_category": {
+      "Access & Permissions": 2,
+      "Process Automation": 2,
+      "Reporting & Analytics": 2,
+      "System Integration": 2,
+      "Content & Guidance": 2
+    },
+    "by_priority": {
+      "Medium": 4,
+      "High": 4,
+      "Low": 2
+    },
+    "by_channel": {
+      "Service Portal": 4,
+      "Email": 3,
+      "Teams": 3
+    },
+    "by_status": {
+      "New": 3,
+      "In Review": 2,
+      "Assigned": 2,
+      "Planned": 1,
+      "In Progress": 1,
+      "Completed": 1
+    },
+    "review_flags": {
+      "HIGH_PRIORITY": 4,
+      "OVERDUE": 2,
+      "EXTERNAL_ACCESS": 1
+    },
+    "acknowledgement_sources": {
+      "template": 10
+    }
+  },
+  "results": [
+    {
+      "request": {
+        "row_number": 2,
+        "request_id": "REQ-001",
+        "submitted_date": "01/10/2026",
+        "requester_role": "Student Services Officer",
+        "request_type": "Access & Permissions",
+        "request_summary": "Request access to the student enquiries dashboard for weekly reporting.",
+        "priority": "Medium",
+        "channel": "Service Portal",
+        "status": "New"
+      },
+      "submitted_date_iso": "2026-10-01",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "Access & Permissions",
+        "confidence": "high",
+        "score": 9,
+        "matched_keywords": [
+          "access to",
+          "request access",
+          "access"
+        ],
+        "scores": {
+          "Access & Permissions": 9,
+          "Process Automation": 0,
+          "Reporting & Analytics": 2,
+          "System Integration": 0,
+          "Content & Guidance": 0
+        },
+        "rationale": "Access & Permissions scored 9 on: access to, request access, access (next: Reporting & Analytics 2)"
+      },
+      "submitted_type": "Access & Permissions",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-001 (submitted 1 October 2026 via Service Portal).\n\nIt has been logged as Access & Permissions with Medium priority, and we aim to respond within 3 working days.\n\nAccess requests are checked against our data protection and information security policies before access is granted. We may contact you to confirm the business need and the approving manager.\n\nPlease quote REQ-001 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": true,
+      "review_flags": [
+        {
+          "code": "OVERDUE",
+          "severity": "warning",
+          "reason": "Still 'New' after 7 days (threshold 5); nobody has picked this up"
+        }
+      ]
+    },
+    {
+      "request": {
+        "row_number": 3,
+        "request_id": "REQ-002",
+        "submitted_date": "01/10/2026",
+        "requester_role": "Programme Administrator",
+        "request_type": "Process Automation",
+        "request_summary": "Automate the transfer of approved course changes from a form into a tracking list.",
+        "priority": "High",
+        "channel": "Email",
+        "status": "In Review"
+      },
+      "submitted_date_iso": "2026-10-01",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "Process Automation",
+        "confidence": "high",
+        "score": 8,
+        "matched_keywords": [
+          "automate",
+          "form",
+          "transfer",
+          "tracking list"
+        ],
+        "scores": {
+          "Access & Permissions": 0,
+          "Process Automation": 8,
+          "Reporting & Analytics": 0,
+          "System Integration": 0,
+          "Content & Guidance": 0
+        },
+        "rationale": "Process Automation scored 8 on: automate, form, transfer, tracking list"
+      },
+      "submitted_type": "Process Automation",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-002 (submitted 1 October 2026 via Email).\n\nIt has been logged as Process Automation with High priority, and we aim to respond within 1 working day.\n\nA member of the team will review the current process with you to confirm the trigger, the steps to automate and who should be notified.\n\nPlease quote REQ-002 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": true,
+      "review_flags": [
+        {
+          "code": "HIGH_PRIORITY",
+          "severity": "warning",
+          "reason": "High priority: confirm urgency and assign an owner today"
+        }
+      ]
+    },
+    {
+      "request": {
+        "row_number": 4,
+        "request_id": "REQ-003",
+        "submitted_date": "02/10/2026",
+        "requester_role": "Lecturer",
+        "request_type": "Reporting & Analytics",
+        "request_summary": "Create a dashboard showing module engagement and outstanding interventions.",
+        "priority": "Medium",
+        "channel": "Teams",
+        "status": "Assigned"
+      },
+      "submitted_date_iso": "2026-10-02",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "Reporting & Analytics",
+        "confidence": "high",
+        "score": 10,
+        "matched_keywords": [
+          "create a dashboard",
+          "dashboard showing",
+          "dashboard",
+          "engagement"
+        ],
+        "scores": {
+          "Access & Permissions": 0,
+          "Process Automation": 0,
+          "Reporting & Analytics": 10,
+          "System Integration": 0,
+          "Content & Guidance": 0
+        },
+        "rationale": "Reporting & Analytics scored 10 on: create a dashboard, dashboard showing, dashboard, engagement"
+      },
+      "submitted_type": "Reporting & Analytics",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-003 (submitted 2 October 2026 via Teams).\n\nIt has been logged as Reporting & Analytics with Medium priority, and we aim to respond within 3 working days.\n\nWe will confirm the data sources, the measures you need and how often the report or dashboard should refresh.\n\nPlease quote REQ-003 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": false,
+      "review_flags": []
+    },
+    {
+      "request": {
+        "row_number": 5,
+        "request_id": "REQ-004",
+        "submitted_date": "02/10/2026",
+        "requester_role": "Finance Officer",
+        "request_type": "System Integration",
+        "request_summary": "Connect the expenses form to the finance approval workflow and archive approved records.",
+        "priority": "High",
+        "channel": "Service Portal",
+        "status": "New"
+      },
+      "submitted_date_iso": "2026-10-02",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "System Integration",
+        "confidence": "medium",
+        "score": 6,
+        "matched_keywords": [
+          "connect",
+          "archive"
+        ],
+        "scores": {
+          "Access & Permissions": 0,
+          "Process Automation": 5,
+          "Reporting & Analytics": 0,
+          "System Integration": 6,
+          "Content & Guidance": 0
+        },
+        "rationale": "System Integration scored 6 on: connect, archive (next: Process Automation 5)"
+      },
+      "submitted_type": "System Integration",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-004 (submitted 2 October 2026 via Service Portal).\n\nIt has been logged as System Integration with High priority, and we aim to respond within 1 working day.\n\nIntegration requests are assessed for data ownership, security and supportability before design work starts.\n\nPlease quote REQ-004 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": true,
+      "review_flags": [
+        {
+          "code": "HIGH_PRIORITY",
+          "severity": "warning",
+          "reason": "High priority: confirm urgency and assign an owner today"
+        },
+        {
+          "code": "OVERDUE",
+          "severity": "warning",
+          "reason": "Still 'New' after 6 days (threshold 5); nobody has picked this up"
+        }
+      ]
+    },
+    {
+      "request": {
+        "row_number": 6,
+        "request_id": "REQ-005",
+        "submitted_date": "03/10/2026",
+        "requester_role": "HR Adviser",
+        "request_type": "Content & Guidance",
+        "request_summary": "Publish a searchable digital guide for staff onboarding tasks and key contacts.",
+        "priority": "Low",
+        "channel": "Email",
+        "status": "Planned"
+      },
+      "submitted_date_iso": "2026-10-03",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "Content & Guidance",
+        "confidence": "high",
+        "score": 10,
+        "matched_keywords": [
+          "guide",
+          "publish",
+          "onboarding",
+          "searchable"
+        ],
+        "scores": {
+          "Access & Permissions": 0,
+          "Process Automation": 0,
+          "Reporting & Analytics": 0,
+          "System Integration": 0,
+          "Content & Guidance": 10
+        },
+        "rationale": "Content & Guidance scored 10 on: guide, publish, onboarding, searchable"
+      },
+      "submitted_type": "Content & Guidance",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-005 (submitted 3 October 2026 via Email).\n\nIt has been logged as Content & Guidance with Low priority, and we aim to respond within 5 working days.\n\nWe will agree the audience, structure and content owner with you before anything is published.\n\nPlease quote REQ-005 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": false,
+      "review_flags": []
+    },
+    {
+      "request": {
+        "row_number": 7,
+        "request_id": "REQ-006",
+        "submitted_date": "05/10/2026",
+        "requester_role": "Faculty Manager",
+        "request_type": "Process Automation",
+        "request_summary": "Send automated reminders when mandatory review actions are overdue.",
+        "priority": "High",
+        "channel": "Teams",
+        "status": "In Progress"
+      },
+      "submitted_date_iso": "2026-10-05",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "Process Automation",
+        "confidence": "high",
+        "score": 9,
+        "matched_keywords": [
+          "automated",
+          "reminders",
+          "overdue"
+        ],
+        "scores": {
+          "Access & Permissions": 0,
+          "Process Automation": 9,
+          "Reporting & Analytics": 0,
+          "System Integration": 0,
+          "Content & Guidance": 0
+        },
+        "rationale": "Process Automation scored 9 on: automated, reminders, overdue"
+      },
+      "submitted_type": "Process Automation",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-006 (submitted 5 October 2026 via Teams).\n\nIt has been logged as Process Automation with High priority, and we aim to respond within 1 working day.\n\nA member of the team will review the current process with you to confirm the trigger, the steps to automate and who should be notified.\n\nPlease quote REQ-006 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": true,
+      "review_flags": [
+        {
+          "code": "HIGH_PRIORITY",
+          "severity": "warning",
+          "reason": "High priority: confirm urgency and assign an owner today"
+        }
+      ]
+    },
+    {
+      "request": {
+        "row_number": 8,
+        "request_id": "REQ-007",
+        "submitted_date": "05/10/2026",
+        "requester_role": "Research Administrator",
+        "request_type": "Access & Permissions",
+        "request_summary": "Set up controlled access for external collaborators to a project document library.",
+        "priority": "Medium",
+        "channel": "Service Portal",
+        "status": "Assigned"
+      },
+      "submitted_date_iso": "2026-10-05",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "Access & Permissions",
+        "confidence": "high",
+        "score": 9,
+        "matched_keywords": [
+          "controlled access",
+          "external collaborators",
+          "access",
+          "library",
+          "external"
+        ],
+        "scores": {
+          "Access & Permissions": 9,
+          "Process Automation": 0,
+          "Reporting & Analytics": 0,
+          "System Integration": 0,
+          "Content & Guidance": 0
+        },
+        "rationale": "Access & Permissions scored 9 on: controlled access, external collaborators, access, library, external"
+      },
+      "submitted_type": "Access & Permissions",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-007 (submitted 5 October 2026 via Service Portal).\n\nIt has been logged as Access & Permissions with Medium priority, and we aim to respond within 3 working days.\n\nAccess requests are checked against our data protection and information security policies before access is granted. We may contact you to confirm the business need and the approving manager.\n\nPlease quote REQ-007 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": true,
+      "review_flags": [
+        {
+          "code": "EXTERNAL_ACCESS",
+          "severity": "warning",
+          "reason": "Access for an external party ('external') needs an information-governance check before approval"
+        }
+      ]
+    },
+    {
+      "request": {
+        "row_number": 9,
+        "request_id": "REQ-008",
+        "submitted_date": "06/10/2026",
+        "requester_role": "Student Support Adviser",
+        "request_type": "Reporting & Analytics",
+        "request_summary": "Produce a weekly summary of enquiry volumes by category and time band.",
+        "priority": "Medium",
+        "channel": "Email",
+        "status": "New"
+      },
+      "submitted_date_iso": "2026-10-06",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "Reporting & Analytics",
+        "confidence": "high",
+        "score": 9,
+        "matched_keywords": [
+          "weekly summary",
+          "summary of",
+          "summary",
+          "volumes",
+          "by category"
+        ],
+        "scores": {
+          "Access & Permissions": 0,
+          "Process Automation": 0,
+          "Reporting & Analytics": 9,
+          "System Integration": 0,
+          "Content & Guidance": 0
+        },
+        "rationale": "Reporting & Analytics scored 9 on: weekly summary, summary of, summary, volumes, by category"
+      },
+      "submitted_type": "Reporting & Analytics",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-008 (submitted 6 October 2026 via Email).\n\nIt has been logged as Reporting & Analytics with Medium priority, and we aim to respond within 3 working days.\n\nWe will confirm the data sources, the measures you need and how often the report or dashboard should refresh.\n\nPlease quote REQ-008 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": false,
+      "review_flags": []
+    },
+    {
+      "request": {
+        "row_number": 10,
+        "request_id": "REQ-009",
+        "submitted_date": "07/10/2026",
+        "requester_role": "Digital Project Manager",
+        "request_type": "System Integration",
+        "request_summary": "Synchronise approved project milestones between the portfolio tracker and Teams.",
+        "priority": "High",
+        "channel": "Service Portal",
+        "status": "In Review"
+      },
+      "submitted_date_iso": "2026-10-07",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "System Integration",
+        "confidence": "high",
+        "score": 9,
+        "matched_keywords": [
+          "synchronise",
+          "between",
+          "tracker"
+        ],
+        "scores": {
+          "Access & Permissions": 0,
+          "Process Automation": 0,
+          "Reporting & Analytics": 0,
+          "System Integration": 9,
+          "Content & Guidance": 0
+        },
+        "rationale": "System Integration scored 9 on: synchronise, between, tracker"
+      },
+      "submitted_type": "System Integration",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-009 (submitted 7 October 2026 via Service Portal).\n\nIt has been logged as System Integration with High priority, and we aim to respond within 1 working day.\n\nIntegration requests are assessed for data ownership, security and supportability before design work starts.\n\nPlease quote REQ-009 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": true,
+      "review_flags": [
+        {
+          "code": "HIGH_PRIORITY",
+          "severity": "warning",
+          "reason": "High priority: confirm urgency and assign an owner today"
+        }
+      ]
+    },
+    {
+      "request": {
+        "row_number": 11,
+        "request_id": "REQ-010",
+        "submitted_date": "08/10/2026",
+        "requester_role": "Communications Officer",
+        "request_type": "Content & Guidance",
+        "request_summary": "Create a reusable page template for service announcements and planned maintenance.",
+        "priority": "Low",
+        "channel": "Teams",
+        "status": "Completed"
+      },
+      "submitted_date_iso": "2026-10-08",
+      "is_valid": true,
+      "validation_issues": [],
+      "category": {
+        "category": "Content & Guidance",
+        "confidence": "high",
+        "score": 11,
+        "matched_keywords": [
+          "page template",
+          "template",
+          "announcements",
+          "page",
+          "reusable"
+        ],
+        "scores": {
+          "Access & Permissions": 0,
+          "Process Automation": 0,
+          "Reporting & Analytics": 0,
+          "System Integration": 0,
+          "Content & Guidance": 11
+        },
+        "rationale": "Content & Guidance scored 11 on: page template, template, announcements, page, reusable"
+      },
+      "submitted_type": "Content & Guidance",
+      "category_mismatch": false,
+      "acknowledgement": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference REQ-010 (submitted 8 October 2026 via Teams).\n\nIt has been logged as Content & Guidance with Low priority, and we aim to respond within 5 working days.\n\nWe will agree the audience, structure and content owner with you before anything is published.\n\nPlease quote REQ-010 in any further correspondence.\n\nKind regards,\nDigital Services Team\n",
+      "ack_source": "template",
+      "ai_note": null,
+      "needs_human_review": false,
+      "review_flags": []
+    }
+  ]
+}

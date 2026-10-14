@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "description": "Rules used by the service-request triage prototype. Edit keywords and lists here; no code change needed. Keywords are matched case-insensitively on whole words/phrases within the Request Summary.",
+
+  "categorisation": {
+    "fallback_category": "Uncategorised",
+    "strong_weight": 3,
+    "weak_weight": 1,
+    "leading_verb_bonus": 2,
+    "leading_words": 3,
+    "high_confidence_margin": 3,
+    "minimum_confident_score": 3,
+    "categories": [
+      {
+        "name": "Access & Permissions",
+        "description": "Granting, changing or removing access to systems, dashboards, libraries or data.",
+        "strong": ["access to", "request access", "grant access", "controlled access", "permission", "permissions", "password", "unlock", "log in", "login", "sign in", "guest access", "external collaborator", "external collaborators", "read access", "edit access"],
+        "weak": ["access", "account", "sharepoint", "library", "role", "licence", "license", "external", "guest"]
+      },
+      {
+        "name": "Process Automation",
+        "description": "Automating manual steps, reminders, approvals and workflows.",
+        "strong": ["automate", "automated", "automatically", "automation", "reminder", "reminders", "workflow", "trigger", "schedule", "scheduled"],
+        "weak": ["form", "approval", "transfer", "overdue", "notify", "notification", "tracking list", "flow"]
+      },
+      {
+        "name": "Reporting & Analytics",
+        "description": "Dashboards, reports, summaries and metrics.",
+        "strong": ["create a dashboard", "build a dashboard", "dashboard showing", "report", "reports", "weekly summary", "monthly summary", "summary of", "analytics", "metrics", "kpi", "power bi"],
+        "weak": ["dashboard", "reporting", "summary", "engagement", "volumes", "statistics", "trend", "trends", "chart", "insight", "by category", "rates"]
+      },
+      {
+        "name": "System Integration",
+        "description": "Connecting or synchronising two or more systems.",
+        "strong": ["integrate", "integration", "connect", "synchronise", "synchronize", "sync", "api", "between"],
+        "weak": ["link", "feed", "import", "export", "migrate", "archive", "dynamics", "tracker"]
+      },
+      {
+        "name": "Content & Guidance",
+        "description": "Guides, pages, templates and published information.",
+        "strong": ["guide", "guidance", "publish", "page template", "template", "content", "article", "faq", "documentation", "knowledge base", "announcement", "announcements"],
+        "weak": ["page", "intranet", "onboarding", "how to", "instructions", "searchable", "reusable"]
+      }
+    ]
+  },
+
+  "validation": {
+    "required_fields": ["Request ID", "Submitted Date", "Requester Role", "Request Summary", "Priority", "Channel", "Status"],
+    "optional_fields": ["Request Type"],
+    "request_id_pattern": "^REQ-\\d{3,}$",
+    "date_formats": ["%d/%m/%Y", "%Y-%m-%d"],
+    "allow_future_dates": false,
+    "minimum_summary_length": 15,
+    "allowed_priorities": ["Low", "Medium", "High"],
+    "allowed_channels": ["Service Portal", "Email", "Teams", "Phone", "In Person"],
+    "allowed_statuses": ["New", "In Review", "Assigned", "Planned", "In Progress", "On Hold", "Completed", "Closed"]
+  },
+
+  "review": {
+    "overdue_days": 5,
+    "overdue_statuses": ["New"],
+    "attention_priorities": ["High"],
+    "external_access_keywords": ["external", "guest", "partner", "third party", "third-party", "collaborator", "collaborators", "supplier", "contractor", "visitor"],
+    "sensitive_keywords": ["disability", "disabilities", "medical", "health", "mental health", "pregnan", "religion", "ethnicity", "sexual", "grievance", "disciplinary", "complaint", "harassment", "safeguarding", "immigration", "visa", "criminal", "salary", "bank details", "date of birth"],
+    "credential_keywords": ["password", "passcode", "pin number", "security answer"],
+    "personal_data_patterns": {
+      "email address": "[\\w.+-]+@[\\w-]+(?:\\.[\\w-]+)+",
+      "phone number": "(?:\\+44\\s?\\d{3,4}|\\(?0\\d{3,4}\\)?)[\\s-]?\\d{3}[\\s-]?\\d{3,4}",
+      "national insurance number": "\\b[A-CEGHJ-PR-TW-Z]{2}\\s?\\d{2}\\s?\\d{2}\\s?\\d{2}\\s?[A-D]\\b",
+      "ID number": "\\b\\d{7,9}\\b"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+Request ID,Submitted Date,Requester Role,Request Type,Request Summary,Priority,Channel,Status
+REQ-101,01/10/2026,,Process Automation,Automate the weekly export of timetable changes into the room booking tracker.,Medium,Email,New
+REQ-102,02/10/2026,Programme Administrator,Reporting & Analytics,,High,Service Portal,New
+REQ-103,31/02/2026,Lecturer,Content & Guidance,Publish a short guide explaining how to request a module page template.,Low,Teams,New
+REQ-104,01/12/2026,Finance Officer,System Integration,Connect the purchase order form to the finance approval workflow.,High,Service Portal,New
+REQ-105,03/10/2026,HR Adviser,Process Automation,Send automated reminders when probation review actions are overdue.,Urgent,Email,New
+REQ-106,03/10/2026,Faculty Manager,,Need help with something please.,Medium,Teams,New
+REQ-107,04/10/2026,Student Support Adviser,Access & Permissions,Please reset the password for student j.bloggs@example.ac.uk (ID 12345678) who cannot log in to the portal.,High,Email,New
+REQ-108,05/10/2026,Communications Officer,Content & Guidance,Automate the weekly export of attendance data into the reporting dashboard.,Medium,Service Portal,In Review
+REQ-108,05/10/2026,Communications Officer,Content & Guidance,Automate the weekly export of attendance data into the reporting dashboard.,Medium,Service Portal,In Review
+REQ-109,06/10/2026,Research Administrator,Access & Permissions,Grant an external examiner from a partner college read access to the assessment SharePoint library.,Medium,Service Portal,New
+REQ-110,20/09/2026,Digital Project Manager,Reporting & Analytics,Produce a monthly report of helpdesk ticket volumes by faculty.,Medium,Teams,New
+REQ-111,06/10/2026,Lecturer,Reporting & Analytics,Dashboard,Low,Teams,New
+REQ-112,2026-10-07,Library Systems Officer,,Connect the library catalogue API to the reading list system so new titles sync overnight.,Medium,Service Portal,New
+REQ-113,07/10/2026,Student Support Adviser,Content & Guidance,Record reasonable adjustments for a student who has disclosed a disability on the module support page.,Medium,Email,New
+,08/10/2026,Lecturer,Reporting & Analytics,Create a dashboard showing assessment submission rates by module.,Medium,Teams,New

@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "description": "Acknowledgement templates. Placeholders in braces are filled by the prototype. Edit wording here; no code change needed.",
+  "sender": "Digital Services Team",
+  "response_targets": {
+    "High": "1 working day",
+    "Medium": "3 working days",
+    "Low": "5 working days",
+    "default": "5 working days"
+  },
+  "template": "Dear colleague,\n\nThank you for your request. We have received it and logged it under reference {request_id} (submitted {submitted_date} via {channel}).\n\nIt has been logged as {category} with {priority} priority, and we aim to respond within {response_target}.\n\n{category_note}\n\n{incomplete_note}\n\nPlease quote {request_id} in any further correspondence.\n\nKind regards,\n{sender}",
+  "category_notes": {
+    "Access & Permissions": "Access requests are checked against our data protection and information security policies before access is granted. We may contact you to confirm the business need and the approving manager.",
+    "Process Automation": "A member of the team will review the current process with you to confirm the trigger, the steps to automate and who should be notified.",
+    "Reporting & Analytics": "We will confirm the data sources, the measures you need and how often the report or dashboard should refresh.",
+    "System Integration": "Integration requests are assessed for data ownership, security and supportability before design work starts.",
+    "Content & Guidance": "We will agree the audience, structure and content owner with you before anything is published.",
+    "Uncategorised": "We could not automatically determine the type of your request, so a member of the team will review it and contact you if we need more detail."
+  },
+  "incomplete_note": "Some required information was missing or invalid ({missing_fields}). A member of the team will contact you to complete it before work can begin.",
+  "unknown_values": {
+    "priority": "standard",
+    "channel": "an unrecorded channel",
+    "submitted_date": "on an unrecorded date",
+    "request_id": "(reference pending)"
+  }
+}

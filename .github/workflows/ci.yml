@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python tests + triage run (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install test dependencies
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Run the test-suite
+        run: python -m pytest -q
+
+      - name: Triage the synthetic data sets (templates only, no API keys)
+        run: |
+          python -m triage --input data/requests.csv --output ci-output/sample --as-of 2026-10-08
+          python -m triage --input data/requests_edge_cases.csv --output ci-output/edge-cases --as-of 2026-10-08
+
+      - name: Check the committed sample output is still reproducible
+        run: |
+          python - <<'EOF'
+          import csv, sys
+          def rows(path):
+              with open(path, newline="", encoding="utf-8") as handle:
+                  return [(r["Request ID"], r["Rule Category"], r["Needs Human Review"]) for r in csv.DictReader(handle)]
+          committed, fresh = rows("output/triage_results.csv"), rows("ci-output/sample/triage_results.csv")
+          if committed != fresh:
+              print("output/triage_results.csv differs from a fresh run; regenerate it with: python -m triage")
+              sys.exit(1)
+          print(f"{len(fresh)} rows match the committed output")
+          EOF
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: triage-output-python-${{ matrix.python-version }}
+          path: ci-output/
+
+  frontend:
+    name: Frontend type-check + build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci --no-fund --no-audit
+
+      - name: Type-check and build
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist/

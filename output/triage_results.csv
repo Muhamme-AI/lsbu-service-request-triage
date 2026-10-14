@@ -1,0 +1,121 @@
+Request ID,Submitted Date,Submitted Date (ISO),Requester Role,Submitted Type,Rule Category,Confidence,Matched Keywords,Category Mismatch,Valid,Validation Issues,Priority,Channel,Status,Needs Human Review,Review Flags,Acknowledgement Source,Acknowledgement
+REQ-001,01/10/2026,2026-10-01,Student Services Officer,Access & Permissions,Access & Permissions,high,access to; request access; access,No,Yes,,Medium,Service Portal,New,Yes,OVERDUE: Still 'New' after 7 days (threshold 5); nobody has picked this up,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-001 (submitted 1 October 2026 via Service Portal).
+
+It has been logged as Access & Permissions with Medium priority, and we aim to respond within 3 working days.
+
+Access requests are checked against our data protection and information security policies before access is granted. We may contact you to confirm the business need and the approving manager.
+
+Please quote REQ-001 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
+REQ-002,01/10/2026,2026-10-01,Programme Administrator,Process Automation,Process Automation,high,automate; form; transfer; tracking list,No,Yes,,High,Email,In Review,Yes,HIGH_PRIORITY: High priority: confirm urgency and assign an owner today,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-002 (submitted 1 October 2026 via Email).
+
+It has been logged as Process Automation with High priority, and we aim to respond within 1 working day.
+
+A member of the team will review the current process with you to confirm the trigger, the steps to automate and who should be notified.
+
+Please quote REQ-002 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
+REQ-003,02/10/2026,2026-10-02,Lecturer,Reporting & Analytics,Reporting & Analytics,high,create a dashboard; dashboard showing; dashboard; engagement,No,Yes,,Medium,Teams,Assigned,No,,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-003 (submitted 2 October 2026 via Teams).
+
+It has been logged as Reporting & Analytics with Medium priority, and we aim to respond within 3 working days.
+
+We will confirm the data sources, the measures you need and how often the report or dashboard should refresh.
+
+Please quote REQ-003 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
+REQ-004,02/10/2026,2026-10-02,Finance Officer,System Integration,System Integration,medium,connect; archive,No,Yes,,High,Service Portal,New,Yes,HIGH_PRIORITY: High priority: confirm urgency and assign an owner today; OVERDUE: Still 'New' after 6 days (threshold 5); nobody has picked this up,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-004 (submitted 2 October 2026 via Service Portal).
+
+It has been logged as System Integration with High priority, and we aim to respond within 1 working day.
+
+Integration requests are assessed for data ownership, security and supportability before design work starts.
+
+Please quote REQ-004 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
+REQ-005,03/10/2026,2026-10-03,HR Adviser,Content & Guidance,Content & Guidance,high,guide; publish; onboarding; searchable,No,Yes,,Low,Email,Planned,No,,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-005 (submitted 3 October 2026 via Email).
+
+It has been logged as Content & Guidance with Low priority, and we aim to respond within 5 working days.
+
+We will agree the audience, structure and content owner with you before anything is published.
+
+Please quote REQ-005 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
+REQ-006,05/10/2026,2026-10-05,Faculty Manager,Process Automation,Process Automation,high,automated; reminders; overdue,No,Yes,,High,Teams,In Progress,Yes,HIGH_PRIORITY: High priority: confirm urgency and assign an owner today,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-006 (submitted 5 October 2026 via Teams).
+
+It has been logged as Process Automation with High priority, and we aim to respond within 1 working day.
+
+A member of the team will review the current process with you to confirm the trigger, the steps to automate and who should be notified.
+
+Please quote REQ-006 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
+REQ-007,05/10/2026,2026-10-05,Research Administrator,Access & Permissions,Access & Permissions,high,controlled access; external collaborators; access; library; external,No,Yes,,Medium,Service Portal,Assigned,Yes,EXTERNAL_ACCESS: Access for an external party ('external') needs an information-governance check before approval,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-007 (submitted 5 October 2026 via Service Portal).
+
+It has been logged as Access & Permissions with Medium priority, and we aim to respond within 3 working days.
+
+Access requests are checked against our data protection and information security policies before access is granted. We may contact you to confirm the business need and the approving manager.
+
+Please quote REQ-007 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
+REQ-008,06/10/2026,2026-10-06,Student Support Adviser,Reporting & Analytics,Reporting & Analytics,high,weekly summary; summary of; summary; volumes; by category,No,Yes,,Medium,Email,New,No,,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-008 (submitted 6 October 2026 via Email).
+
+It has been logged as Reporting & Analytics with Medium priority, and we aim to respond within 3 working days.
+
+We will confirm the data sources, the measures you need and how often the report or dashboard should refresh.
+
+Please quote REQ-008 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
+REQ-009,07/10/2026,2026-10-07,Digital Project Manager,System Integration,System Integration,high,synchronise; between; tracker,No,Yes,,High,Service Portal,In Review,Yes,HIGH_PRIORITY: High priority: confirm urgency and assign an owner today,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-009 (submitted 7 October 2026 via Service Portal).
+
+It has been logged as System Integration with High priority, and we aim to respond within 1 working day.
+
+Integration requests are assessed for data ownership, security and supportability before design work starts.
+
+Please quote REQ-009 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
+REQ-010,08/10/2026,2026-10-08,Communications Officer,Content & Guidance,Content & Guidance,high,page template; template; announcements; page; reusable,No,Yes,,Low,Teams,Completed,No,,template,"Dear colleague,
+
+Thank you for your request. We have received it and logged it under reference REQ-010 (submitted 8 October 2026 via Teams).
+
+It has been logged as Content & Guidance with Low priority, and we aim to respond within 5 working days.
+
+We will agree the audience, structure and content owner with you before anything is published.
+
+Please quote REQ-010 in any further correspondence.
+
+Kind regards,
+Digital Services Team"
