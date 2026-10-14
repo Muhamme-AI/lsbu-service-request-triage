@@ -43,7 +43,7 @@ python3 -m venv .venv
 .venv/bin/python -m pytest -q
 ```
 
-65 tests cover loading, validation, categorisation, acknowledgements, review flags, both CSV files end to end, the Groq-to-Azure fallback (no network, no API key) and the HTTP API.
+The test suite covers loading, validation, categorisation, acknowledgements, review flags, both CSV files end to end, the Groq-to-Azure fallback (no network, no API key) and the HTTP API. `python -m triage.evals` scores the AI guardrails separately.
 
 ## Web demo
 
@@ -62,6 +62,10 @@ For UI development, run the API and Vite separately. Vite proxies `/api` to port
 .venv/bin/uvicorn api.main:app --reload
 cd frontend && npm run dev
 ```
+
+## Deploy on Vercel
+
+[`vercel.json`](vercel.json) is one Vercel project with two services. The page is public at `/`. The API is public at `/api`, which is the path the page already calls. In the Vercel project, set `TRIAGE_AI_PROVIDER` to `groq` and set `GROQ_API_KEY` if acknowledgements should be rewritten by the model. With those unset, the page still runs and uses the templates.
 
 ## Optional AI acknowledgements
 

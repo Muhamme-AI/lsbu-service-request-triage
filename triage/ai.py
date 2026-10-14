@@ -29,6 +29,8 @@ import urllib.request
 from dataclasses import dataclass
 from typing import Any, Callable, Mapping
 
+from .guardrails import review_output
+
 DEFAULT_TIMEOUT = 20.0
 MAX_RESPONSE_CHARS = 1500
 MIN_RESPONSE_CHARS = 40
@@ -195,17 +197,12 @@ def build_messages(facts: dict[str, Any], template_text: str) -> list[dict[str, 
     ]
 
 
-def validate_draft(text: str, request_id: str) -> str:
-    text = (text or "").strip()
-    if len(text) < MIN_RESPONSE_CHARS:
-        raise AIDraftError("AI reply was empty or too short")
-    if len(text) > MAX_RESPONSE_CHARS:
-        raise AIDraftError(f"AI reply exceeded {MAX_RESPONSE_CHARS} characters")
-    if request_id and request_id not in text:
-        raise AIDraftError("AI reply did not quote the request reference")
-    if "```" in text or text.lower().startswith("subject:"):
-        raise AIDraftError("AI reply was not plain text")
-    return text + "\n"
+def validate_draft(text: str, request_id: str, team_name: str = "") -> str:
+    """Accept a reply only when the output guardrails all pass."""
+    breaches = review_output(text, request_id=request_id, team_name=team_name)
+    if breaches:
+        raise AIDraftError(breaches[0].message)
+    return text.strip() + "\n"
 
 
 Opener = Callable[..., Any]
@@ -250,4 +247,4 @@ def draft_acknowledgement(
     except (ValueError, KeyError, IndexError, TypeError) as exc:
         raise AIDraftError("AI response was not in the expected format") from exc
 
-    return validate_draft(str(content), str(facts.get("request_id", ""))), model
+    return validate_draft(str(content), str(facts.get("request_id", "")), str(facts.get("team_name", ""))), model

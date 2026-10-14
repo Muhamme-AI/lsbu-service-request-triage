@@ -11,6 +11,7 @@ from typing import Any, Callable
 from . import __version__
 from .acknowledgement import build_acknowledgement, format_date, response_target
 from .ai import AIDraftError, AISettings, describe_chain, draft_acknowledgement
+from .guardrails import review_input
 from .categoriser import categorise
 from .config import DEFAULT_OUTPUT_DIR, load_ack_config, load_rules
 from .loader import LoadResult, load_requests, parse_csv_text
@@ -112,6 +113,10 @@ def apply_ai(
     eligible, note = ai_eligible(result)
     if not eligible:
         result.ai_note = note
+        return result
+    blocked = review_input(result.request.request_summary)
+    if blocked:
+        result.ai_note = f"AI drafting skipped because of {blocked[0].code}; template used"
         return result
     submitted = date.fromisoformat(result.submitted_date_iso) if result.submitted_date_iso else None
     facts = ai_facts(result, ack_config, submitted)

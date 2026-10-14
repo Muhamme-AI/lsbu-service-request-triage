@@ -31,6 +31,9 @@ jobs:
       - name: Run the test-suite
         run: python -m pytest -q
 
+      - name: Run the AI guardrail evals
+        run: python -m triage.evals
+
       - name: Triage the synthetic data sets (templates only, no API keys)
         run: |
           python -m triage --input data/requests.csv --output ci-output/sample --as-of 2026-10-08
