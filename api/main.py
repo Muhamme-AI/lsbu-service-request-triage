@@ -32,7 +32,9 @@ from triage.ai import AIConfigError, AISettings, describe_chain, provider_chain
 from triage.config import PROJECT_ROOT, load_ack_config, load_dotenv, load_rules
 from triage.loader import LoaderError
 from triage.models import Request
+from triage.assistant import answer
 from triage.pipeline import TriageRun, apply_ai, run_from_text, triage_requests
+from triage.rag import ensure_index
 from triage.report import acknowledgements_markdown, run_to_dict, summary_markdown
 
 DATASETS = {
@@ -155,6 +157,49 @@ class RequestIn(BaseModel):
 class AIDraftIn(BaseModel):
     request: RequestIn
     as_of: str | None = Field(None, description="YYYY-MM-DD or 'today'")
+
+
+@app.on_event("startup")
+def _warm_guidance_index() -> None:
+    ensure_index()
+
+
+class ChatTurn(BaseModel):
+    role: str
+    content: str
+
+
+class BatchItem(BaseModel):
+    request_id: str = ""
+    category: str = ""
+    priority: str = ""
+    status: str = ""
+    summary: str = ""
+    flags: list[str] = []
+
+
+class AssistantIn(BaseModel):
+    question: str = ""
+    history: list[ChatTurn] = []
+    requests: list[BatchItem] = []
+
+
+@app.post("/api/assistant")
+def assistant(body: AssistantIn) -> dict[str, Any]:
+    """Answer a reviewer question from the guidance index and the open batch."""
+    settings, _problem = ai_settings_or_none()
+    history = [
+        {"role": turn.role, "content": turn.content}
+        for turn in body.history
+        if turn.role in {"user", "assistant"} and turn.content.strip()
+    ]
+    reply = answer(
+        body.question,
+        history=history,
+        requests=[item.model_dump() for item in body.requests],
+        settings=settings,
+    )
+    return {"reply": reply.text, "sources": reply.sources, "refused": reply.refused, "model": reply.model}
 
 
 @app.post("/api/acknowledgement/ai")

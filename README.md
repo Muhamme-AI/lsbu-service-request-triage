@@ -63,6 +63,10 @@ For UI development, run the API and Vite separately. Vite proxies `/api` to port
 cd frontend && npm run dev
 ```
 
+## Review assistant
+
+The AI wizard button opens a panel for the reviewer. It retrieves the closest guidance from the vector index (`python -m triage.rag` rebuilds it) and asks the configured model to answer or draft a reply. Questions that try to override the instructions are refused. A reply that includes personal data, a password, or a claim that an email was sent is discarded and the indexed guidance is shown instead. `python -m triage.evals` scores those checks.
+
 ## Deploy on Vercel
 
 [`vercel.json`](vercel.json) is one Vercel project with two services. The page is public at `/`. The API is public at `/api`, which is the path the page already calls. In the Vercel project, set `TRIAGE_AI_PROVIDER` to `groq` and set `GROQ_API_KEY` if acknowledgements should be rewritten by the model. With those unset, the page still runs and uses the templates.

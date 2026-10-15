@@ -24,8 +24,14 @@ from __future__ import annotations
 import json
 import os
 import socket
+import ssl
 import urllib.error
 import urllib.request
+
+try:
+    import certifi
+except ImportError:  # pragma: no cover - certifi is installed with the API dependencies
+    certifi = None
 from dataclasses import dataclass
 from typing import Any, Callable, Mapping
 
@@ -208,28 +214,27 @@ def validate_draft(text: str, request_id: str, team_name: str = "") -> str:
 Opener = Callable[..., Any]
 
 
-def draft_acknowledgement(
-    facts: dict[str, Any],
-    template_text: str,
+def complete_chat(
+    messages: list[dict[str, str]],
     settings: AISettings,
     *,
+    temperature: float = 0.3,
+    max_tokens: int = 500,
     opener: Opener | None = None,
 ) -> tuple[str, str]:
-    """Return ``(draft_text, model_name)`` or raise ``AIDraftError``."""
-    body: dict[str, Any] = {
-        "messages": build_messages(facts, template_text),
-        "temperature": 0.3,
-        "max_tokens": 320,
-    }
+    """Call one chat model. Returns ``(text, model_name)`` or raises ``AIDraftError``."""
+    body: dict[str, Any] = {"messages": messages, "temperature": temperature, "max_tokens": max_tokens}
     if settings.provider != "azure":
         body["model"] = settings.model
-
     request = urllib.request.Request(
         settings.url, data=json.dumps(body).encode("utf-8"), headers=settings.headers, method="POST"
     )
     open_fn = opener or urllib.request.urlopen
+    open_kwargs: dict[str, Any] = {"timeout": settings.timeout}
+    if certifi and opener is None:
+        open_kwargs["context"] = ssl.create_default_context(cafile=certifi.where())
     try:
-        with open_fn(request, timeout=settings.timeout) as response:
+        with open_fn(request, **open_kwargs) as response:
             raw = response.read()
     except urllib.error.HTTPError as exc:
         raise AIDraftError(f"{settings.provider} returned HTTP {exc.code}") from exc
@@ -239,12 +244,22 @@ def draft_acknowledgement(
         raise AIDraftError(f"{settings.provider} timed out after {settings.timeout:.0f}s") from exc
     except OSError as exc:
         raise AIDraftError(f"Network error talking to {settings.provider}: {exc}") from exc
-
     try:
         data = json.loads(raw.decode("utf-8") if isinstance(raw, bytes) else raw)
         content = data["choices"][0]["message"]["content"]
         model = str(data.get("model") or settings.model)
     except (ValueError, KeyError, IndexError, TypeError) as exc:
         raise AIDraftError("AI response was not in the expected format") from exc
+    return str(content).strip(), model
 
-    return validate_draft(str(content), str(facts.get("request_id", "")), str(facts.get("team_name", ""))), model
+
+def draft_acknowledgement(
+    facts: dict[str, Any],
+    template_text: str,
+    settings: AISettings,
+    *,
+    opener: Opener | None = None,
+) -> tuple[str, str]:
+    """Return ``(draft_text, model_name)`` or raise ``AIDraftError``."""
+    content, model = complete_chat(build_messages(facts, template_text), settings, max_tokens=320, opener=opener)
+    return validate_draft(content, str(facts.get("request_id", "")), str(facts.get("team_name", ""))), model

@@ -89,3 +89,34 @@ def review_output(text: str, *, request_id: str = "", team_name: str = "") -> li
             breaches.append(Breach("PROMPT_INJECTION", "AI reply followed an instruction from the request"))
             break
     return breaches
+
+
+ASSISTANT_SEND_CLAIM = re.compile(
+    r"\b(i have sent|i've sent|email has been sent|message has been sent)\b",
+    re.IGNORECASE,
+)
+
+
+def review_assistant_output(text: str) -> list[Breach]:
+    """Checks for the review assistant, which is a conversation rather than one acknowledgement."""
+    cleaned = _clean(text)
+    breaches: list[Breach] = []
+    if not cleaned:
+        breaches.append(Breach("TOO_SHORT", "the assistant reply was empty"))
+    if len(cleaned) > 2500:
+        breaches.append(Breach("TOO_LONG", "the assistant reply was too long"))
+    if "```" in cleaned or re.search(r"<\s*/?\s*script", cleaned, re.IGNORECASE):
+        breaches.append(Breach("NOT_PLAIN_TEXT", "the assistant reply was not plain text"))
+    if ASSISTANT_SEND_CLAIM.search(cleaned):
+        breaches.append(Breach("SEND_CLAIM", "the assistant must not claim an email was sent"))
+    if re.search(r"\bpassword\b", cleaned, re.IGNORECASE):
+        breaches.append(Breach("CREDENTIAL", "the assistant reply repeated a credential"))
+    for label, pattern in OUTPUT_PERSONAL_DATA.items():
+        if _matches(cleaned, pattern):
+            breaches.append(Breach("PERSONAL_DATA", f"the assistant reply contained a {label}"))
+            break
+    for pattern in INJECTION_PATTERNS:
+        if _matches(cleaned, pattern):
+            breaches.append(Breach("PROMPT_INJECTION", "the assistant reply followed an instruction from the question"))
+            break
+    return breaches

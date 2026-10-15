@@ -1,10 +1,14 @@
-import { ClipboardCheck, Github } from "lucide-react"
+import { ClipboardCheck, Github, WandSparkles } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
 export const REPO_URL = "https://github.com/Muhamme-AI/lsbu-service-request-triage"
 
-export function Header() {
+interface HeaderProps {
+  onOpenAssistant: () => void
+}
+
+export function Header({ onOpenAssistant }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 bg-primary text-primary-foreground">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
@@ -18,6 +22,10 @@ export function Header() {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <Button variant="ghost" className="text-white hover:bg-white/15 hover:text-white" onClick={onOpenAssistant}>
+            <WandSparkles />
+            <span className="hidden sm:inline">AI wizard</span>
+          </Button>
           <Button variant="ghost" size="icon" className="text-white hover:bg-white/15 hover:text-white" asChild aria-label="Open the GitHub repository">
             <a href={REPO_URL} target="_blank" rel="noreferrer">
               <Github />

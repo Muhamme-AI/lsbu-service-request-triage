@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react"
 import { AlertCircle, BookOpenText, Info, LayoutDashboard, Loader2 } from "lucide-react"
 
 import { AboutView } from "@/components/AboutView"
+import { AssistantPanel } from "@/components/AssistantPanel"
 import { Charts } from "@/components/Charts"
 import { Header } from "@/components/Header"
 import { RequestDialog } from "@/components/RequestDialog"
@@ -24,6 +25,7 @@ export default function App() {
   const [selected, setSelected] = useState<TriageResult | null>(null)
   const [asOf, setAsOf] = useState("")
   const [useAi, setUseAi] = useState(false)
+  const [assistantOpen, setAssistantOpen] = useState(false)
 
   useEffect(() => {
     api
@@ -50,7 +52,7 @@ export default function App() {
   return (
     <TooltipProvider>
       <div className="min-h-screen">
-        <Header />
+        <Header onOpenAssistant={() => setAssistantOpen(true)} />
         <main className="mx-auto grid max-w-7xl gap-6 bg-white px-4 py-6 sm:px-6">
           <Tabs defaultValue="triage">
             <TabsList>
@@ -134,6 +136,20 @@ export default function App() {
           </div>
         </footer>
         <RequestDialog result={selected} health={health} asOf={asOf} onClose={() => setSelected(null)} />
+        <AssistantPanel
+          open={assistantOpen}
+          onClose={() => setAssistantOpen(false)}
+          requests={
+            run?.results.map((result) => ({
+              request_id: result.request.request_id,
+              category: result.category.category,
+              priority: result.request.priority,
+              status: result.request.status,
+              summary: result.request.request_summary,
+              flags: result.review_flags.map((flag) => flag.code),
+            })) ?? []
+          }
+        />
       </div>
     </TooltipProvider>
   )

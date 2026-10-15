@@ -148,6 +148,27 @@ export interface RulesPayload {
   }
 }
 
+export interface AssistantSource {
+  source: string
+  excerpt: string
+}
+
+export interface AssistantResponse {
+  reply: string
+  sources: AssistantSource[]
+  refused: boolean
+  model: string | null
+}
+
+export interface AssistantRequestFact {
+  request_id: string
+  category: string
+  priority: string
+  status: string
+  summary: string
+  flags: string[]
+}
+
 export interface AIDraftResponse {
   ai_available: boolean
   acknowledgement: string
