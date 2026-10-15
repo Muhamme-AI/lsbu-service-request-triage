@@ -43,7 +43,7 @@ python3 -m venv .venv
 .venv/bin/python -m pytest -q
 ```
 
-The test suite covers loading, validation, categorisation, acknowledgements, review flags, both CSV files end to end, the Groq-to-Azure fallback (no network, no API key) and the HTTP API. `python -m triage.evals` scores the AI guardrails separately.
+The test suite covers loading, validation, categorisation, acknowledgements, review flags, both CSV files end to end, the Groq-to-Azure fallback (no network, no API key), the retrieval index, the review assistant and the HTTP API. `python -m triage.evals` scores the AI guardrails and retrieval quality separately.
 
 ## Web demo
 
@@ -65,7 +65,17 @@ cd frontend && npm run dev
 
 ## Review assistant
 
-The AI wizard button opens a panel for the reviewer. It retrieves the closest guidance from the vector index (`python -m triage.rag` rebuilds it) and asks the configured model to answer or draft a reply. Questions that try to override the instructions are refused. A reply that includes personal data, a password, or a claim that an email was sent is discarded and the indexed guidance is shown instead. `python -m triage.evals` scores those checks.
+The **AI wizard** button opens a panel on the right. A reviewer can ask what a request needs, which rule applies, which requests to look at first, or ask for a draft reply. Drafts stay in the chat with a copy button. Nothing is sent, granted or changed from the panel.
+
+How a question is answered:
+
+1. The question is checked first. Attempts to override the instructions, requests for the system prompt or a key, pasted personal data, and off-topic questions are refused before anything is retrieved or sent.
+2. The guidance index is searched. It is built from [`knowledge/*.md`](knowledge/) plus the live [`config/rules.json`](config/rules.json) and [`config/acknowledgements.json`](config/acknowledgements.json), chunked by paragraph, embedded as TF-IDF vectors and stored in SQLite (`data/vectors.sqlite`, rebuilt when a source file changes). `python -m triage.rag` rebuilds it and prints what is in it; `GET /api/assistant/index` reports the same.
+3. The loaded batch is ranked against the question in memory so the assistant can find "the overdue access request". The batch is redacted (email addresses, phone numbers, ID numbers, NI numbers and anything after a credential word) before it reaches the model, and it is never written to disk.
+4. The model is asked once per configured provider (Groq, then Azure OpenAI or OpenAI if their keys are set). The reply must pass the output checks: plain text, no personal data, no credential, no claim to have sent an email or granted access, and no request reference that is not in the batch. A reply that fails is dropped and the retrieved guidance is shown instead, with the reason.
+5. With no model configured, the panel still answers from the index.
+
+`python -m triage.evals` scores every one of those checks and the retrieval quality (is the right guidance the top hit for a reviewer question?) without a network call.
 
 ## Deploy on Vercel
 

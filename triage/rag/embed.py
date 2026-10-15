@@ -11,8 +11,16 @@ import math
 import re
 
 
+# Function words carry no topic. Dropping them stops "how do I ... for a" matching everything.
+STOP_WORDS = frozenset(
+    "a an and are as at be been by can could do does for from has have how i if in into is it its "
+    "me my of on or our should that the their them then there these they this to us was we what when "
+    "where which who will with would you your".split()
+)
+
+
 def tokens(text: str) -> list[str]:
-    words = re.findall(r"[a-z0-9]+", text.lower())
+    words = [word for word in re.findall(r"[a-z0-9&]+", text.lower()) if word not in STOP_WORDS]
     return words + [f"{words[i]}_{words[i + 1]}" for i in range(len(words) - 1)]
 
 

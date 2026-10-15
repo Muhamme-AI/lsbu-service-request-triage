@@ -157,7 +157,17 @@ export interface AssistantResponse {
   reply: string
   sources: AssistantSource[]
   refused: boolean
+  reason: string | null
   model: string | null
+  matched_requests: string[]
+}
+
+export interface AssistantIndexStats {
+  path: string
+  chunks: number
+  sources: Record<string, number>
+  vocabulary: number
+  index_version: string
 }
 
 export interface AssistantRequestFact {

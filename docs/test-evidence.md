@@ -1,6 +1,6 @@
 # Test evidence
 
-The brief asks for evidence of three tests. These three are also in the pytest suite, so `python3 -m pytest -q` repeats them. The full run on 14 October 2026 was **65 passed** on Python 3.14.3. Screenshots of the same behaviour in the demo are in [`screenshots/`](screenshots/).
+The brief asks for evidence of three tests. These three are also in the pytest suite, so `python3 -m pytest -q` repeats them. The full run on 15 October 2026 was **107 passed** on Python 3.14.3, and `python3 -m triage.evals` scored 27/27 guardrail cases and 11/11 retrieval cases. Screenshots of the same behaviour in the demo are in [`screenshots/`](screenshots/).
 
 Commands were run from the repository root with the local virtual environment.
 
@@ -91,16 +91,35 @@ The HTTP call is replaced with a fake handler, so this test needs no API key and
 
 **Result.** All four passed. In the demo, with no `.env`, the "Draft with AI" button on REQ-007 leaves the template in place and shows "AI drafting is not configured (set TRIAGE_AI_PROVIDER in .env); template used". See [`screenshots/04-ai-draft-fallback.png`](screenshots/04-ai-draft-fallback.png).
 
+## Test 4 — The review assistant and its retrieval index
+
+**What it checks.** The AI wizard panel answers from indexed guidance and the loaded batch, refuses bad questions before any model call, and drops unsafe model replies. All of it runs with a fake HTTP handler, so no key and no network.
+
+- Seven kinds of question are refused with a named reason and zero model calls: instruction override, a request for the system prompt or a key, pasted personal data, off-topic, empty, and over-long.
+- Seven kinds of model reply are dropped and replaced with the retrieved guidance: a claim to have sent an email ("I have sent" and "I'll send it now"), a claim to have granted access, an email address, an invented request reference, HTML, and an empty reply.
+- The batch sent to the model is redacted. The test plants an email address, an ID number and `password is hunter2` in a request summary and asserts none of them appear in the outgoing body.
+- Groq failing falls back to Azure OpenAI when that key is set, then to the indexed guidance when nothing answers.
+- Retrieval: the right guidance file is the top hit for external access, password resets, reminders, email drafts, dashboards, category mismatch, disability, rule keywords and response targets. An off-topic question returns nothing.
+
+**Command.**
+
+```bash
+.venv/bin/python -m pytest tests/test_assistant.py tests/test_rag.py -q
+.venv/bin/python -m triage.evals
+```
+
+**Result.** 42 passed in the two files. The eval run printed `AI guardrail evals: 27/27 passed` and `Retrieval evals: 11/11 passed`.
+
 ## The rest of the suite
 
-The other tests cover date parsing (including 31 February and a future date), allowed priorities and channels, whole-word keyword matching ("rapid" must not match "api"), acknowledgement wording, flag severity order, duplicate ids, and the HTTP API (health, rules, sample, upload, a 400 for a CSV with no summary column, a 422 for a bad date).
+The other tests cover date parsing (including 31 February and a future date), allowed priorities and channels, whole-word keyword matching ("rapid" must not match "api"), acknowledgement wording, flag severity order, duplicate ids, and the HTTP API (health, rules, sample, upload, a 400 for a CSV with no summary column, a 422 for a bad date, a 422 for an over-long assistant question).
 
 ```text
 ============================= test session starts ==============================
 platform darwin -- Python 3.14.3, pytest-9.1.1
-collected 65 items
+collected 107 items
 ...
-============================== 65 passed in 0.37s ==============================
+============================= 107 passed in 0.88s ==============================
 ```
 
 GitHub Actions runs the same suite on Python 3.12 and 3.14, reruns both CSV files, and checks that `output/triage_results.csv` still matches a fresh run. See [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).

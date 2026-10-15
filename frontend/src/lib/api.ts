@@ -1,4 +1,14 @@
-import type { AIDraftResponse, AssistantRequestFact, AssistantResponse, DatasetName, Health, RequestRow, RulesPayload, TriageRun } from "./types"
+import type {
+  AIDraftResponse,
+  AssistantIndexStats,
+  AssistantRequestFact,
+  AssistantResponse,
+  DatasetName,
+  Health,
+  RequestRow,
+  RulesPayload,
+  TriageRun,
+} from "./types"
 
 export class ApiError extends Error {
   status: number
@@ -56,6 +66,7 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question, history, requests }),
     }).then((r) => parse<AssistantResponse>(r)),
+  assistantIndex: () => fetch("/api/assistant/index").then((r) => parse<AssistantIndexStats>(r)),
   draftWithAi: (request: RequestRow, asOf?: string) =>
     fetch("/api/acknowledgement/ai", {
       method: "POST",

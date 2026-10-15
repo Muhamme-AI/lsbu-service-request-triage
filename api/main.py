@@ -18,9 +18,10 @@ demo runs from a single process.
 
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import Any, AsyncIterator
 
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,10 +32,10 @@ from triage import __version__
 from triage.ai import AIConfigError, AISettings, describe_chain, provider_chain
 from triage.config import PROJECT_ROOT, load_ack_config, load_dotenv, load_rules
 from triage.loader import LoaderError
-from triage.models import Request
 from triage.assistant import answer
+from triage.models import Request
 from triage.pipeline import TriageRun, apply_ai, run_from_text, triage_requests
-from triage.rag import ensure_index
+from triage.rag import ensure_index, index_stats
 from triage.report import acknowledgements_markdown, run_to_dict, summary_markdown
 
 DATASETS = {
@@ -46,10 +47,19 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 
 load_dotenv()
 
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
+    """Build the retrieval index once at startup so the first question is not slow."""
+    ensure_index()
+    yield
+
+
 app = FastAPI(
     title="Service Request Triage API",
     version=__version__,
     description="Validates, categorises, acknowledges and flags service requests from a CSV file.",
+    lifespan=lifespan,
 )
 app.add_middleware(
     CORSMiddleware,
@@ -159,14 +169,9 @@ class AIDraftIn(BaseModel):
     as_of: str | None = Field(None, description="YYYY-MM-DD or 'today'")
 
 
-@app.on_event("startup")
-def _warm_guidance_index() -> None:
-    ensure_index()
-
-
 class ChatTurn(BaseModel):
     role: str
-    content: str
+    content: str = Field("", max_length=4000)
 
 
 class BatchItem(BaseModel):
@@ -174,19 +179,22 @@ class BatchItem(BaseModel):
     category: str = ""
     priority: str = ""
     status: str = ""
-    summary: str = ""
+    summary: str = Field("", max_length=2000)
     flags: list[str] = []
 
 
 class AssistantIn(BaseModel):
-    question: str = ""
-    history: list[ChatTurn] = []
-    requests: list[BatchItem] = []
+    question: str = Field("", max_length=4000)
+    history: list[ChatTurn] = Field(default_factory=list, max_length=40)
+    requests: list[BatchItem] = Field(default_factory=list, max_length=500)
 
 
 @app.post("/api/assistant")
 def assistant(body: AssistantIn) -> dict[str, Any]:
-    """Answer a reviewer question from the guidance index and the open batch."""
+    """Answer a reviewer question from the guidance index and the open batch.
+
+    The batch is held in memory for this call only. Nothing is sent or changed.
+    """
     settings, _problem = ai_settings_or_none()
     history = [
         {"role": turn.role, "content": turn.content}
@@ -199,7 +207,20 @@ def assistant(body: AssistantIn) -> dict[str, Any]:
         requests=[item.model_dump() for item in body.requests],
         settings=settings,
     )
-    return {"reply": reply.text, "sources": reply.sources, "refused": reply.refused, "model": reply.model}
+    return {
+        "reply": reply.text,
+        "sources": reply.sources,
+        "refused": reply.refused,
+        "reason": reply.reason,
+        "model": reply.model,
+        "matched_requests": reply.matched_requests,
+    }
+
+
+@app.get("/api/assistant/index")
+def assistant_index() -> dict[str, Any]:
+    """What the retrieval index contains: file names, chunk counts, vocabulary size."""
+    return index_stats()
 
 
 @app.post("/api/acknowledgement/ai")
