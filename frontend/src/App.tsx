@@ -51,9 +51,10 @@ export default function App() {
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen">
+      <div className="flex min-h-screen items-start">
+        <div className="flex min-w-0 flex-1 flex-col overflow-x-hidden">
         <Header onOpenAssistant={() => setAssistantOpen(true)} />
-        <main className="mx-auto grid max-w-7xl gap-6 bg-white px-4 py-6 sm:px-6">
+        <main className="mx-auto grid w-full min-w-0 max-w-7xl gap-6 bg-white px-4 py-6 sm:px-6">
           <Tabs defaultValue="triage">
             <TabsList>
               <TabsTrigger value="triage">
@@ -135,7 +136,7 @@ export default function App() {
             Assessment prototype for the AI and Automation Engineer test. Not a live university service. All data is synthetic.
           </div>
         </footer>
-        <RequestDialog result={selected} health={health} asOf={asOf} onClose={() => setSelected(null)} />
+        </div>
         <AssistantPanel
           open={assistantOpen}
           onClose={() => setAssistantOpen(false)}
@@ -151,6 +152,7 @@ export default function App() {
           }
         />
       </div>
+      <RequestDialog result={selected} health={health} asOf={asOf} onClose={() => setSelected(null)} />
     </TooltipProvider>
   )
 }

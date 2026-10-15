@@ -30,7 +30,7 @@ The ten-row file supplied with the test is unchanged. I added `data/requests_edg
 
 8. **The review assistant started with gaps the evals found.** The first version indexed the config as one long keyword list, which outranked the written guidance on nearly every question. One chunk per rule fixed it. Stop words ("how", "for a") were carrying matches, so a question about booking a sports hall returned the dashboard note; removing them and raising the relevance floor made off-topic questions return nothing. Redaction replaced the word "password" but left the secret after it, and missed a London phone number; both now use the same patterns as the guardrails. "I'll send it now" slipped past a check that only knew "I have sent". Each of those is now an eval case.
 
-9. **The suite after those changes:** 107 passed on Python 3.14.3, plus 27 guardrail and 11 retrieval evals. The same suite is green on GitHub Actions for Python 3.12, Python 3.14 and the frontend build. See [`test-evidence.md`](test-evidence.md).
+9. **The suite after those changes:** 108 passed on Python 3.14.3, plus 29 guardrail and 11 retrieval evals. The same suite is green on GitHub Actions for Python 3.12, Python 3.14 and the frontend build. See [`test-evidence.md`](test-evidence.md).
 
 ## What I would say in the interview
 

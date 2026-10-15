@@ -1,6 +1,6 @@
 # Test evidence
 
-The brief asks for evidence of three tests. These three are also in the pytest suite, so `python3 -m pytest -q` repeats them. The full run on 15 October 2026 was **107 passed** on Python 3.14.3, and `python3 -m triage.evals` scored 27/27 guardrail cases and 11/11 retrieval cases. Screenshots of the same behaviour in the demo are in [`screenshots/`](screenshots/).
+The brief asks for evidence of three tests. These three are also in the pytest suite, so `python3 -m pytest -q` repeats them. The full run on 15 October 2026 was **108 passed** on Python 3.14.3, and `python3 -m triage.evals` scored 29/29 guardrail cases and 11/11 retrieval cases. Screenshots of the same behaviour in the demo are in [`screenshots/`](screenshots/).
 
 Commands were run from the repository root with the local virtual environment.
 
@@ -108,7 +108,7 @@ The HTTP call is replaced with a fake handler, so this test needs no API key and
 .venv/bin/python -m triage.evals
 ```
 
-**Result.** 42 passed in the two files. The eval run printed `AI guardrail evals: 27/27 passed` and `Retrieval evals: 11/11 passed`.
+**Result.** 41 passed in the two files. The eval run printed `AI guardrail evals: 29/29 passed` and `Retrieval evals: 11/11 passed`.
 
 ## The rest of the suite
 
@@ -117,9 +117,9 @@ The other tests cover date parsing (including 31 February and a future date), al
 ```text
 ============================= test session starts ==============================
 platform darwin -- Python 3.14.3, pytest-9.1.1
-collected 107 items
+collected 108 items
 ...
-============================= 107 passed in 0.88s ==============================
+============================= 108 passed in 0.79s ==============================
 ```
 
 GitHub Actions runs the same suite on Python 3.12 and 3.14, reruns both CSV files, and checks that `output/triage_results.csv` still matches a fresh run. See [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).

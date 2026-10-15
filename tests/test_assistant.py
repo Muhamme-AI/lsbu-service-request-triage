@@ -7,7 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from triage.ai import AISettings, provider_chain
-from triage.assistant import REFUSALS, answer, batch_facts, redact
+from triage.assistant import REFUSALS, answer, batch_facts, plain_reply, redact
 from triage.rag.pipeline import ensure_index, retrieve_requests
 
 
@@ -139,6 +139,21 @@ def test_model_answer_uses_retrieved_guidance_and_redacts_the_batch(db):
     assert "j.bloggs@" not in sent and "12345678" not in sent and "hunter2" not in sent
     assert "Source: access-and-permissions.md" in seen[0]["messages"][1]["content"]
     assert "REQ-007 | Access & Permissions" in seen[0]["messages"][1]["content"]
+
+
+def test_markdown_asterisks_are_removed_from_the_model_reply(db):
+    raw = "**Before approving** you should:\n* Confirm the manager\n* Do not share a *password* value"
+    result = answer(
+        "What should I check before approving external access?",
+        settings=AISettings.from_env(GROQ),
+        opener=reply(raw),
+        db_path=db,
+    )
+    assert "*" not in result.text
+    assert "Before approving" in result.text
+    assert "Confirm the manager" in result.text
+    assert "password" in result.text
+    assert plain_reply("1. Keep the numbered line") == "1. Keep the numbered line"
 
 
 @pytest.mark.parametrize(

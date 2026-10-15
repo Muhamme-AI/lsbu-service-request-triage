@@ -46,6 +46,15 @@ const REASON_LABELS: Record<string, string> = {
   PROVIDER_UNAVAILABLE: "Model unavailable, guidance shown",
 }
 
+function plainReply(text: string): string {
+  return text
+    .replaceAll("**", "")
+    .replaceAll("__", "")
+    .replace(/^[ \t]*[*+-][ \t]+/gm, "")
+    .replace(/(^|[^\w])\*([^*\n]+)\*(?!\w)/g, "$1$2")
+    .replaceAll("*", "")
+}
+
 function looksLikeDraft(text: string): boolean {
   return /dear colleague/i.test(text) && /digital services team/i.test(text)
 }
@@ -103,7 +112,7 @@ export function AssistantPanel({ open, requests, onClose }: AssistantPanelProps)
         ...current,
         {
           role: "assistant",
-          content: response.reply,
+          content: plainReply(response.reply),
           sources: response.sources,
           refused: response.refused,
           reason: response.reason,
@@ -129,13 +138,13 @@ export function AssistantPanel({ open, requests, onClose }: AssistantPanelProps)
   }
 
   return (
-    <aside className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col border-l bg-white shadow-xl" aria-label="Review assistant" role="dialog">
-      <div className="flex items-center justify-between gap-3 border-b bg-primary px-4 py-3 text-primary-foreground">
-        <div className="flex items-center gap-2">
-          <WandSparkles className="size-4" />
-          <div>
-            <p className="text-sm font-semibold">Review assistant</p>
-            <p className="text-[11px] text-white/80">
+    <aside className="sticky top-0 flex h-dvh w-[clamp(18rem,32vw,24rem)] shrink-0 flex-col bg-white" aria-label="Review assistant">
+      <div className="flex h-[4.25rem] shrink-0 items-center justify-between gap-3 bg-primary px-4 text-primary-foreground">
+        <div className="flex min-w-0 items-center gap-2">
+          <WandSparkles className="size-4 shrink-0" />
+          <div className="min-w-0">
+            <p className="text-sm font-semibold leading-tight">Review assistant</p>
+            <p className="truncate text-[11px] text-white/80">
               {requests.length ? `${requests.length} requests in context` : "No batch loaded - guidance only"}
               {index ? ` · ${index.chunks} guidance chunks indexed` : ""}
             </p>
@@ -153,6 +162,7 @@ export function AssistantPanel({ open, requests, onClose }: AssistantPanelProps)
         </div>
       </div>
 
+      <div className="flex min-h-0 flex-1 flex-col border-l">
       <div ref={scroller} className="thin-scroll flex-1 space-y-3 overflow-y-auto px-4 py-4">
         {messages.length === 0 && (
           <div className="grid gap-3 text-sm text-muted-foreground">
@@ -254,6 +264,7 @@ export function AssistantPanel({ open, requests, onClose }: AssistantPanelProps)
           <Send />
         </Button>
       </form>
+      </div>
     </aside>
   )
 }

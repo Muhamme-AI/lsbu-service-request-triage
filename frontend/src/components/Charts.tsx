@@ -28,7 +28,7 @@ export function Charts({ run }: { run: TriageRun }) {
   const byFlag = toSeries(run.summary.review_flags)
 
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
+    <div className="grid min-w-0 gap-4 lg:grid-cols-3">
       <Card className="gap-4">
         <CardHeader>
           <CardTitle className="text-sm">Requests by rule category</CardTitle>

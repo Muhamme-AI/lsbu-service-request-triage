@@ -25,6 +25,21 @@ CREDENTIAL_VALUE = re.compile(
     re.IGNORECASE,
 )
 
+# Ordinary words that follow "password" in the written guidance. They are not a secret.
+_ORDINARY_FOLLOWING = frozenset(
+    {
+        "a", "an", "the", "your", "their", "this", "that", "any", "no", "not",
+        "never", "please", "has", "have", "had", "been", "being", "was", "were",
+        "is", "are", "be", "reset", "resets", "resetting", "change", "changes",
+        "changing", "in", "or", "and", "sharing", "shared", "share", "must",
+        "should", "would", "could", "for", "to", "of", "with", "by", "on", "into",
+        "from", "via", "word", "mentioned", "included", "copied", "email",
+        "emails", "request", "requests", "noted", "policy", "policies", "value",
+        "field", "column", "itself", "alone", "here", "there", "it", "them",
+        "someone", "anyone", "people", "staff", "student", "requester", "teams",
+    }
+)
+
 INJECTION_PATTERNS = (
     r"ignore\s+(all\s+)?(the\s+|your\s+)?(previous|prior|above|earlier)\s+(instructions|rules|prompts?)",
     r"disregard\s+(all\s+)?(the\s+|your\s+)?(system|rules|instructions|guidance)",
@@ -165,6 +180,21 @@ def review_assistant_input(question: str) -> list[Breach]:
     return []
 
 
+def contains_secret_value(text: str) -> bool:
+    """True when a credential word is followed by the secret itself, not by policy wording.
+
+    "Password resets must not be handled by sharing a password" is advice.
+    "The password is hunter2" is a leaked value.
+    """
+    for match in CREDENTIAL_VALUE.finditer(text or ""):
+        value = match.group(2)
+        if value.lower() in _ORDINARY_FOLLOWING:
+            continue
+        if any(char.isdigit() for char in value) or len(value) >= 5:
+            return True
+    return False
+
+
 def review_assistant_output(text: str, *, allowed_references: set[str] | None = None) -> list[Breach]:
     """Checks for the review assistant, which is a conversation rather than one acknowledgement.
 
@@ -183,7 +213,7 @@ def review_assistant_output(text: str, *, allowed_references: set[str] | None = 
         breaches.append(Breach("SEND_CLAIM", "the assistant must not claim an email was sent"))
     if ASSISTANT_ACTION_CLAIM.search(cleaned):
         breaches.append(Breach("ACTION_CLAIM", "the assistant must not claim it changed a request or granted access"))
-    if re.search(r"\bpassword\b", cleaned, re.IGNORECASE):
+    if contains_secret_value(cleaned):
         breaches.append(Breach("CREDENTIAL", "the assistant reply repeated a credential"))
     for label, pattern in OUTPUT_PERSONAL_DATA.items():
         if _matches(cleaned, pattern):

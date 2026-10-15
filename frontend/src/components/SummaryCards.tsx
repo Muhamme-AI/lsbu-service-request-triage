@@ -35,7 +35,7 @@ export function SummaryCards({ run }: { run: TriageRun }) {
     .map(([k, v]) => `${v} ${k}`)
     .join(", ")
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid min-w-0 gap-4 sm:grid-cols-2 xl:grid-cols-4">
       <Stat icon={Inbox} label="Requests read" value={s.total} hint={`from ${run.input_file}`} accent="bg-primary/10 text-primary" />
       <Stat
         icon={CheckCircle2}

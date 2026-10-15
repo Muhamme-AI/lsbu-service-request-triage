@@ -46,7 +46,7 @@ export function UploadPanel({ health, loading, asOf, useAi, onAsOfChange, onUseA
           Drop a CSV exported from the team's spreadsheet, or use one of the synthetic data sets. Nothing is uploaded anywhere except the local API.
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <CardContent className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <div
           role="button"
           tabIndex={0}

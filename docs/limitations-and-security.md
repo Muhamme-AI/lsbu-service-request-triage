@@ -54,10 +54,10 @@ When the AI step is on, the free path sends the small facts object to Groq (`api
 
 - Before retrieval: the question is refused if it tries to override the instructions, asks for the system prompt or a credential, contains an email address, phone number, ID or NI number, is off-topic, is empty, or is over 2,000 characters. The refusal names the reason and nothing is sent.
 - Before the model: the loaded batch is redacted. Email addresses, phone numbers, NI numbers, ID numbers and the value after any credential word are replaced with placeholders. The batch is ranked in memory and never written to the vector store or disk. Only the last six turns of the conversation are passed on, redacted.
-- After the model: a reply is dropped if it is empty, over 2,500 characters, contains markdown or HTML, contains personal data or a credential, claims to have sent an email or granted access, repeats an injection, or quotes a request reference that is not in the batch. The reviewer sees the retrieved guidance instead, labelled with the reason.
+- After the model: a reply is dropped if it is empty, over 2,500 characters, contains markdown or HTML, contains personal data or a password value, claims to have sent an email or granted access, repeats an injection, or quotes a request reference that is not in the batch. Naming the password-reset rule is allowed. The reviewer sees the retrieved guidance instead, labelled with the reason.
 - The assistant can only read. There is no tool that sends mail, changes a request or grants access, so a model that tries to claim it did is caught by the output check and could not have done it anyway.
 - The retrieval index holds guidance and configuration only. Requests are not indexed, so one reviewer's batch never appears in another's answers.
-- `python -m triage.evals` scores 27 guardrail cases and 11 retrieval cases offline. GitHub Actions runs them on every push.
+- `python -m triage.evals` scores 29 guardrail cases and 11 retrieval cases offline. GitHub Actions runs them on every push.
 
 **What the assistant cannot do.** It does not know anything the guidance files, the config and the loaded batch do not say. A question the index cannot answer gets "I don't have indexed guidance that matches this question". TF-IDF retrieval matches words, not meaning: a question phrased with none of the guidance vocabulary may miss. Adding a paragraph to `knowledge/` is the fix, and the retrieval eval is where to check it landed.
 
